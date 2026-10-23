@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Blog Admin</title>
+<style>
+:root{--bg:#f6f5fb;--card:#fff;--tx:#1d1b2e;--mu:#6b6882;--ac:#6d4aff;--bd:#e3e0f1;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#14131d;--card:#1e1c2c;--tx:#efedfa;--mu:#9a97b5;--bd:#322f48;--ac:#8d73ff;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,sans-serif;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+.w{max-width:760px;margin:0 auto;padding:16px 14px 40px}.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:14px}
+label{display:block;font-size:12px;color:var(--mu);margin:10px 0 3px}input,select,textarea{width:100%;padding:9px;border-radius:9px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit}
+textarea{min-height:360px;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+button{font:inherit;border:0;border-radius:10px;padding:10px 14px;background:var(--ac);color:#fff;font-weight:600;cursor:pointer;margin:10px 8px 0 0}button.g{background:transparent;color:var(--ac);border:1px solid var(--bd)}button:disabled{opacity:.5}
+.err{color:#d6336c}ol{padding-left:20px}
+</style>
+</head>
+<body><div class="w">
+<h1>✍️ Blog Admin</h1>
+<div class="card">
+  <label>Admin code</label><input id="code" type="password" autocomplete="off">
+  <label>Post topic / idea</label><input id="topic" placeholder="e.g. How to animate a product photo for Instagram Reels">
+  <label>Target keywords (optional)</label><input id="kw" placeholder="image to video prompt, animate product photo">
+  <label>Length</label><select id="len"><option value="short">Short (~600 words)</option><option value="standard" selected>Standard (~900 words)</option><option value="long">Long (~1300 words)</option></select>
+  <button id="go">Generate draft</button><span id="st"></span>
+</div>
+<div class="card" id="res" hidden>
+  <label>File name</label><input id="fn">
+  <label>Draft (edit freely, add your own examples and experience)</label><textarea id="md"></textarea>
+  <button id="cp">Copy</button><button class="g" id="dl">Download .md</button>
+</div>
+<div class="card"><b>Grant tokens (manual payments: Easypaisa, JazzCash, bank transfer)</b>
+  <label>User email (must have signed in once)</label><input id="ge" type="email">
+  <label>Tokens to add (negative removes)</label><input id="gt" type="number" value="300">
+  <label><input type="checkbox" id="gp" style="width:auto"> Mark account as Pro</label>
+  <button id="gr">Add tokens</button><span id="gs"></span>
+</div>
+<div class="card"><b>Publish in 3 steps</b>
+<ol><li>Read and edit the draft. Add your own experience, screenshots or examples.</li>
+<li>On GitHub open the <code>posts</code> folder &rarr; <b>Add file &rarr; Create new file</b>, paste the file name and the text.</li>
+<li>Click <b>Commit</b>. Vercel rebuilds automatically and the post goes live in about a minute.</li></ol>
+<p style="color:var(--mu)">Tip: set a future <code>date:</code> in the post to schedule it. It appears on the first deploy on or after that date.</p></div>
+</div>
+<script>
+const $=i=>document.getElementById(i);
+try{$('code').value=sessionStorage.getItem('ac')||''}catch(e){}
+$('go').onclick=async()=>{
+  const b=$('go');b.disabled=true;$('st').className='';$('st').textContent=' Writing…';
+  try{
+    try{sessionStorage.setItem('ac',$('code').value)}catch(e){}
+    const r=await fetch('/api/draft',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:$('code').value,topic:$('topic').value,keywords:$('kw').value,length:$('len').value})});
+    const d=await r.json();if(!r.ok)throw new Error(d.error||'Error');
+    $('md').value=d.markdown;$('fn').value=d.filename;$('res').hidden=false;$('st').textContent=' Done ✓';
+  }catch(e){$('st').className='err';$('st').textContent=' '+e.message}
+  b.disabled=false;
+};
+$('cp').onclick=async()=>{try{await navigator.clipboard.writeText($('md').value);$('cp').textContent='Copied ✓'}catch(e){$('md').select();document.execCommand('copy')}setTimeout(()=>$('cp').textContent='Copy',1200)};
+$('dl').onclick=()=>{const u=URL.createObjectURL(new Blob([$('md').value],{type:'text/markdown'}));const a=document.createElement('a');a.href=u;a.download=$('fn').value||'post.md';a.click();URL.revokeObjectURL(u)};
+$('gr').onclick=async()=>{
+  const b=$('gr');b.disabled=true;$('gs').className='';$('gs').textContent=' Working…';
+  try{
+    const r=await fetch('/api/admin-grant',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:$('code').value,email:$('ge').value,tokens:$('gt').value,pro:$('gp').checked})});
+    const d=await r.json();if(!r.ok)throw new Error(d.error||'Error');
+    $('gs').textContent=' Done ✓ New balance: '+d.tokens;
+  }catch(e){$('gs').className='err';$('gs').textContent=' '+e.message}
+  b.disabled=false;
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+window.I2M_CONFIG={supabaseUrl:"%%SUPABASE_URL%%",anonKey:"%%SUPABASE_ANON_KEY%%",proPrice:"%%PRO_PRICE%%",proTokens:"%%PRO_TOKENS%%",freeTokens:25,google:"%%GOOGLE_LOGIN%%"==="1",support:"%%SUPPORT_EMAIL%%"};

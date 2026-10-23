@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Image2Motion AI – Animate Images Online</title>
+<meta name="description" content="Turn your images into animated videos with Image2Motion AI. Upload an image, create motion, and bring your ideas to life.">
+<link rel="alternate" type="application/rss+xml" title="Image2Motion AI Blog" href="/rss.xml">
+<link rel="canonical" href="https://YOUR-DOMAIN.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Image2Motion AI – Animate Images Online">
+<meta property="og:description" content="Turn your images into animated videos with Image2Motion AI. Upload an image, create motion, and bring your ideas to life.">
+<meta property="og:url" content="https://YOUR-DOMAIN.com/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#6d4aff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Image2Motion AI","alternateName":"Image to Motion AI","url":"https://YOUR-DOMAIN.com/","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Turn your images into animated videos with Image2Motion AI. Upload an image, create motion, and bring your ideas to life."}</script>
+
+<style>
+:root{--bg:#f6f5fb;--card:#fff;--tx:#1d1b2e;--mu:#6b6882;--ac:#6d4aff;--ac2:#ff5fa2;--bd:#e3e0f1;--ok:#12a36b;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14131d;--card:#1e1c2c;--tx:#efedfa;--mu:#9a97b5;--bd:#322f48;--ac:#8d73ff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14131d;--card:#1e1c2c;--tx:#efedfa;--mu:#9a97b5;--bd:#322f48;--ac:#8d73ff;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.w{max-width:760px;margin:0 auto;padding:18px 14px 48px}
+h1{margin:0;font-size:26px;letter-spacing:-.5px}
+h1 span{background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mu);margin:2px 0 16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:14px}
+#drop{border:2px dashed var(--bd);border-radius:12px;min-height:150px;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--mu);cursor:pointer;overflow:hidden;padding:10px}
+#drop.on{border-color:var(--ac)}
+#drop img{max-width:100%;max-height:300px;border-radius:8px;display:block}
+.row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+label{font-size:12px;color:var(--mu);display:block;margin-bottom:3px}
+input[type=checkbox]{width:auto;padding:0;margin:0}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--tx)}
+select,textarea,input{width:100%;padding:9px;border-radius:9px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit}
+textarea{grid-column:1/-1;resize:vertical;min-height:54px}
+.full{grid-column:1/-1}
+button{font:inherit;border:0;border-radius:10px;padding:10px 14px;cursor:pointer;background:var(--ac);color:#fff;font-weight:600}
+button.g{background:transparent;color:var(--ac);border:1px solid var(--bd);padding:5px 10px;font-size:12px}
+button:disabled{opacity:.5;cursor:default}
+#go{width:100%;margin-top:12px;font-size:16px;padding:13px}
+h2{font-size:17px;margin:0 0 10px}
+.it{border:1px solid var(--bd);border-radius:10px;padding:10px;margin-bottom:8px;background:var(--bg)}
+.it b{display:block;margin-bottom:2px}
+.p{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;white-space:pre-wrap;word-break:break-word}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;background:var(--card);border:1px solid var(--bd);color:var(--mu);margin:0 4px 4px 0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.shot{display:flex;gap:10px}
+.n{flex:0 0 34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.err{color:#d6336c}
+.st{color:var(--mu);text-align:center;padding:8px}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is Image2Motion AI?", "acceptedAnswer": {"@type": "Answer", "text": "Image2Motion AI is a free online tool that studies an image you upload and creates motion prompts, scene ideas and a shot-by-shot video storyboard. You then use those prompts in an AI image-to-video generator to animate your picture."}}, {"@type": "Question", "name": "Does Image2Motion AI generate the video itself?", "acceptedAnswer": {"@type": "Answer", "text": "Image2Motion AI plans the animation. It writes the camera movement and motion prompts and a storyboard that you paste into a video generator such as Runway, Kling or Pika to render the final clip."}}, {"@type": "Question", "name": "Is Image2Motion AI free to use?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, to start. Every new account gets 25 free tokens, and one token creates one complete motion plan. When you need more, you can upgrade to the Pro plan."}}, {"@type": "Question", "name": "What kind of images work best?", "acceptedAnswer": {"@type": "Answer", "text": "Clear, well-lit images with a visible subject work best: portraits, landscapes, products, food, architecture, illustrations and posters. Very low resolution or heavily cluttered images give less precise results."}}, {"@type": "Question", "name": "Which languages are supported?", "acceptedAnswer": {"@type": "Answer", "text": "You can choose from 19 output languages, including English, Urdu, Hindi, Arabic, Spanish, French, German, Portuguese, Turkish, Chinese, Japanese and Korean. Generation prompts can stay in English, which most video tools understand best."}}, {"@type": "Question", "name": "Are my uploaded images stored?", "acceptedAnswer": {"@type": "Answer", "text": "Your image is resized in your browser and sent only to generate the plan. This site does not keep a library of uploaded images."}}]}</script>
+<style>
+.nav{display:flex;gap:16px;align-items:center;margin-bottom:10px;font-size:15px}.nav a{color:var(--mu);text-decoration:none}.nav a:hover{color:var(--ac)}.nav .b{font-weight:800;color:var(--tx);margin-right:auto}
+.sec h2{font-size:20px}.sec ol,.sec ul{padding-left:20px;margin:8px 0}.sec li{margin:6px 0}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+details{border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin:8px 0;background:var(--bg)}summary{cursor:pointer;font-weight:600}details p{margin:8px 0 0;color:var(--mu)}
+.sec a{color:var(--ac)}footer{text-align:center;color:var(--mu);font-size:13px;padding:10px 0 0}footer a{color:var(--mu)}
+</style>
+</head>
+<body>
+<div class="w">
+  <nav class="nav"><a class="b" href="/">Image2Motion AI</a><a href="#how">How it works</a><a href="#faq">FAQ</a><a href="/blog/">Blog</a><a href="/guides/">Guides</a><a href="/pricing.html">Pricing</a><span id="authbar"></span></nav>
+  <h1>Image<span>2Motion</span> AI</h1>
+  <p class="sub">Animate images online: upload a photo and get motion prompts, scene ideas and a video storyboard.</p>
+
+  <div class="card">
+    <div id="drop"><span id="dt">📷 Drop an image here or tap to choose</span></div>
+    <input id="f" type="file" accept="image/*" hidden>
+    <div class="row">
+      <div><label>Video style</label><select id="style"><option>Cinematic</option><option>Realistic</option><option>Anime / Illustration</option><option>Product ad</option><option>Documentary</option><option>Dreamy / Surreal</option></select></div>
+      <div><label>Total duration</label><select id="dur"><option value="5">5 sec</option><option value="10" selected>10 sec</option><option value="15">15 sec</option><option value="30">30 sec</option></select></div>
+      <div><label>Aspect ratio</label><select id="ar"><option>16:9</option><option>9:16</option><option>1:1</option></select></div>
+      <div><label>Output language</label><select id="lang"><option>English</option><option>Urdu (اردو)</option><option>Roman Urdu</option><option>Hindi (हिन्दी)</option><option>Arabic (العربية)</option><option>Bengali (বাংলা)</option><option>Punjabi (ਪੰਜਾਬੀ)</option><option>Pashto (پښتو)</option><option>Spanish (Español)</option><option>French (Français)</option><option>German (Deutsch)</option><option>Portuguese (Português)</option><option>Italian (Italiano)</option><option>Russian (Русский)</option><option>Turkish (Türkçe)</option><option>Indonesian (Bahasa Indonesia)</option><option>Chinese Simplified (简体中文)</option><option>Japanese (日本語)</option><option>Korean (한국어)</option></select></div>
+      <div class="full"><label class="chk"><input type="checkbox" id="pen" checked> Keep video-generation prompts in English (recommended: most AI video tools work best in English)</label></div>
+      <div class="full"><label>Extra idea (optional)</label><textarea id="note" placeholder="e.g. slow drone shot, sunset mood, product reveal…"></textarea></div>
+    </div>
+    <button id="go" disabled>✨ Generate Motion Plan</button>
+    <div id="tokhint" class="sub" style="text-align:center;margin:8px 0 0;font-size:13px"></div>
+  </div>
+
+  <div id="out"></div>
+  <section class="card sec">
+    <h2>Animate images online with AI motion prompts</h2>
+    <p>Image2Motion AI helps you turn a still image into a video idea in seconds. Upload a photo, illustration, product shot or poster, and the tool analyzes it and writes everything you need to animate it: camera movement prompts, creative scene ideas and a shot-by-shot storyboard. Paste the prompts into an AI image-to-video generator to bring your picture to life.</p>
+    <p>It is made for content creators, social media managers, marketers, designers, filmmakers and anyone who wants better results from AI video tools without trial and error.</p>
+  </section>
+  <section class="card sec" id="how">
+    <h2>How to use Image2Motion AI</h2>
+    <ol>
+      <li><b>Upload an image.</b> Drop in a photo, artwork or product picture.</li>
+      <li><b>Choose your settings.</b> Pick a video style, total duration, aspect ratio and output language, and add an optional idea.</li>
+      <li><b>Generate the motion plan.</b> Get four motion prompts, four scene ideas and a complete storyboard.</li>
+      <li><b>Create your video.</b> Copy the prompts into your favorite image-to-video tool and render the animation.</li>
+    </ol>
+  </section>
+  <section class="card sec">
+    <h2>Features</h2>
+    <div class="grid2">
+      <div>🎬 <b>Ready-to-paste motion prompts</b><br>Camera movement, subject motion and atmosphere in one prompt.</div>
+      <div>💡 <b>Scene ideas</b><br>Creative directions you can use for reels, ads and short films.</div>
+      <div>🧩 <b>Shot-by-shot storyboard</b><br>Timing, camera, motion and voiceover for every shot.</div>
+      <div>🌍 <b>19 output languages</b><br>Plan videos for audiences in their own language.</div>
+      <div>📐 <b>Any format</b><br>16:9, 9:16 and 1:1 for YouTube, Reels, Shorts and TikTok.</div>
+      <div>📋 <b>Copy and download</b><br>Copy single prompts or save the whole plan as a text file.</div>
+    </div>
+  </section>
+  <!--LATEST_POSTS-->
+  <section class="card sec">
+    <h2>Learn: image-to-video guides</h2>
+    <ul>
+      <li><a href="/guides/camera-movement-prompts-from-still-image.html">How to Create Camera Movement Prompts from a Still Image</a></li>
+      <li><a href="/guides/image-to-video-prompt-examples-for-beginners.html">Image-to-Video Prompt Examples for Beginners</a></li>
+    </ul>
+    <p><a href="/guides/">Browse all guides &rarr;</a></p>
+  </section>
+  <section class="card sec" id="faq">
+    <h2>Frequently asked questions</h2>
+    <details><summary>What is Image2Motion AI?</summary><p>Image2Motion AI is a free online tool that studies an image you upload and creates motion prompts, scene ideas and a shot-by-shot video storyboard. You then use those prompts in an AI image-to-video generator to animate your picture.</p></details><details><summary>Does Image2Motion AI generate the video itself?</summary><p>Image2Motion AI plans the animation. It writes the camera movement and motion prompts and a storyboard that you paste into a video generator such as Runway, Kling or Pika to render the final clip.</p></details><details><summary>Is Image2Motion AI free to use?</summary><p>Yes, to start. Every new account gets 25 free tokens, and one token creates one complete motion plan. When you need more, you can upgrade to the Pro plan.</p></details><details><summary>What kind of images work best?</summary><p>Clear, well-lit images with a visible subject work best: portraits, landscapes, products, food, architecture, illustrations and posters. Very low resolution or heavily cluttered images give less precise results.</p></details><details><summary>Which languages are supported?</summary><p>You can choose from 19 output languages, including English, Urdu, Hindi, Arabic, Spanish, French, German, Portuguese, Turkish, Chinese, Japanese and Korean. Generation prompts can stay in English, which most video tools understand best.</p></details><details><summary>Are my uploaded images stored?</summary><p>Your image is resized in your browser and sent only to generate the plan. This site does not keep a library of uploaded images.</p></details>
+  </section>
+  <footer><a href="/blog/">Blog</a> · <a href="/guides/">Guides</a> · <a href="/rss.xml">RSS</a> · <a href="/pricing.html">Pricing</a> · <a href="/legal/terms.html">Terms</a> · <a href="/legal/privacy.html">Privacy</a> · <a href="/legal/refund.html">Refunds</a> · &copy; Image2Motion AI</footer>
+</div>
+
+<script src="/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/auth.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+let blob=null,result=null;
+const drop=$('drop'),fin=$('f');
+drop.onclick=()=>fin.click();
+fin.onchange=()=>fin.files[0]&&load(fin.files[0]);
+['dragover','dragenter'].forEach(e=>drop.addEventListener(e,x=>{x.preventDefault();drop.classList.add('on')}));
+['dragleave','drop'].forEach(e=>drop.addEventListener(e,x=>{x.preventDefault();drop.classList.remove('on')}));
+drop.addEventListener('drop',x=>{const f=x.dataTransfer.files[0];f&&load(f)});
+
+async function load(file){
+  if(!file.type.startsWith('image/')){msg('Please choose an image file.',1);return}
+  try{
+    const bm=await createImageBitmap(file);
+    const s=Math.min(1,1024/Math.max(bm.width,bm.height));
+    const c=document.createElement('canvas');c.width=Math.round(bm.width*s);c.height=Math.round(bm.height*s);
+    c.getContext('2d').drawImage(bm,0,0,c.width,c.height);
+    blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.85));
+    const img=new Image();img.src=URL.createObjectURL(blob);
+    drop.replaceChildren(img);$('go').disabled=false;
+  }catch(e){msg('Could not load the image.',1)}
+}
+function msg(t,err){const d=document.createElement('div');d.className='st'+(err?' err':'');d.textContent=t;$('out').replaceChildren(d)}
+function el(tag,cls,txt){const e=document.createElement(tag);e.dir='auto';if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+async function copy(t,btn){
+  try{await navigator.clipboard.writeText(t)}catch(e){const a=el('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(_){}a.remove()}
+  const o=btn.textContent;btn.textContent='Copied ✓';setTimeout(()=>btn.textContent=o,1200)
+}
+function cbtn(getText){const b=el('button','g','Copy');b.onclick=()=>copy(getText(),b);return b}
+
+$('go').onclick=async()=>{
+  if(!blob)return;
+  if(!I2M.session){I2M.openLogin('Sign in to get 25 free tokens and generate your plan.');return}
+  const btn=$('go');btn.disabled=true;btn.textContent='Generating…';msg('Analyzing your image…');
+  try{
+    const b64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(blob)});
+    const resp=await I2M.api('/api/generate',{method:'POST',body:JSON.stringify({image:b64,style:$('style').value,dur:+$('dur').value,ar:$('ar').value,note:$('note').value.trim(),lang:$('lang').value,promptsEn:$('pen').checked})});
+    const data=await resp.json();
+    if(resp.status===401){I2M.openLogin('Please sign in again.');throw new Error(data.error||'Please sign in.')}
+    if(resp.status===402){I2M.setTokens(0);showUpgrade();return}
+    if(!resp.ok)throw new Error(data.error||'Server error');
+    result=data.plan;I2M.setTokens(data.tokens);
+    render(result);
+  }catch(e){
+    msg('Something went wrong: '+(e.message||e),1);
+  }finally{btn.disabled=false;btn.textContent='✨ Generate Motion Plan'}
+};
+function showUpgrade(){
+  const d=el('div','card');
+  d.append(el('h2',null,'You are out of tokens'),el('p',null,'Free accounts include 25 tokens. Upgrade to Pro to keep generating motion plans.'));
+  const a=el('a',null,'Upgrade to Pro');a.href='/pricing.html';a.style.cssText='display:inline-block;background:var(--ac);color:#fff;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:600';
+  d.append(a);$('out').replaceChildren(d);
+}
+I2M.onChange(i=>{$('tokhint').textContent=i.session?(i.profile?'⚡ '+i.profile.tokens+' tokens left · 1 generation = 1 token':'Loading your tokens…'):'Sign in to get 25 free tokens · 1 generation = 1 token'});
+
+function render(r){
+  const o=$('out');o.replaceChildren();
+  const top=el('div','card');
+  top.append(el('h2',null,'🎞️ Overview'),el('div',null,r.summary||''));
+  const tg=el('div');tg.style.marginTop='8px';
+  [r.mood,...(r.tags||[])].filter(Boolean).forEach(t=>tg.append(el('span','tag',t)));
+  top.append(tg);
+  const bar=el('div');bar.style.cssText='display:flex;gap:8px;margin-top:10px;flex-wrap:wrap';
+  const ca=el('button',null,'Copy full plan');ca.onclick=()=>copy(asText(r),ca);
+  bar.append(ca);
+  const dl=el('button','g','Download .txt');
+  dl.onclick=()=>{const u=URL.createObjectURL(new Blob([asText(r)],{type:'text/plain'}));const a=el('a');a.href=u;a.download='image2motion-plan.txt';a.click();URL.revokeObjectURL(u)};
+  bar.append(dl);top.append(bar);o.append(top);
+
+  const m=el('div','card');m.append(el('h2',null,'🎬 Motion Prompts'));
+  (r.motion_prompts||[]).forEach(x=>{const it=el('div','it');const h=el('div','top');h.style.marginBottom='4px';h.append(el('b',null,x.title||''),cbtn(()=>x.prompt));it.append(h,el('div','p',x.prompt||''));m.append(it)});
+  o.append(m);
+
+  const s=el('div','card');s.append(el('h2',null,'💡 Scene Ideas'));
+  (r.scenes||[]).forEach(x=>{const it=el('div','it');it.append(el('b',null,x.title||''),el('div',null,x.idea||''));s.append(it)});
+  o.append(s);
+
+  const b=el('div','card');b.append(el('h2',null,'🧩 Storyboard'));
+  (r.storyboard||[]).forEach((x,i)=>{
+    const it=el('div','it shot');it.append(el('div','n',String(x.shot||i+1)));
+    const c=el('div');c.style.minWidth='0';
+    const h=el('div','top');h.style.marginBottom='4px';
+    const t=el('div');t.append(el('span','tag','⏱ '+(x.duration||'')),el('span','tag','🎥 '+(x.camera||'')));
+    h.append(t,cbtn(()=>x.prompt));
+    c.append(h,el('div',null,x.visual||''));
+    const mv=el('div',null,'Motion: '+(x.motion||''));mv.style.color='var(--mu)';c.append(mv);if(x.voiceover){const v=el('div',null,'🎙 '+x.voiceover);v.style.marginTop='4px';c.append(v)}c.append(el('div','p',x.prompt||''));
+    c.lastChild.style.marginTop='6px';it.append(c);b.append(it)});
+  o.append(b);
+  o.scrollIntoView({behavior:'smooth'});
+}
+function asText(r){
+  let t=`IMAGE2MOTION PLAN\n\n${r.summary||''}\nMood: ${r.mood||''}\n\nMOTION PROMPTS\n`;
+  (r.motion_prompts||[]).forEach((x,i)=>t+=`${i+1}. ${x.title}\n${x.prompt}\n\n`);
+  t+='SCENE IDEAS\n';(r.scenes||[]).forEach((x,i)=>t+=`${i+1}. ${x.title}: ${x.idea}\n`);
+  t+='\nSTORYBOARD\n';(r.storyboard||[]).forEach(x=>t+=`Shot ${x.shot} (${x.duration}) — ${x.camera}\n${x.visual}\nMotion: ${x.motion}\nVoiceover: ${x.voiceover||''}\nPrompt: ${x.prompt}\n\n`);
+  return t;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pricing – Free Tokens and Pro Plan | Image2Motion AI</title>
+<meta name="description" content="Start free with 25 tokens. Upgrade to Image2Motion AI Pro for %%PRO_TOKENS%% tokens every month. Secure checkout, cancel anytime.">
+<link rel="canonical" href="https://YOUR-DOMAIN.com/pricing.html">
+<meta property="og:title" content="Image2Motion AI Pricing">
+<meta property="og:description" content="25 free tokens for every account. Upgrade to Pro for more.">
+<link rel="stylesheet" href="/guides/guide.css">
+<style>
+button{font:inherit;border:0;border-radius:10px;padding:11px 14px;background:var(--ac);color:#fff;font-weight:700;cursor:pointer}
+button:disabled{opacity:.55;cursor:default}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.plans{grid-template-columns:1fr}}
+.price{font-size:36px;font-weight:800;margin:2px 0 8px}.price small{font-size:15px;color:var(--mu);font-weight:500}
+.plan ul{padding-left:18px;margin:0 0 14px}.plan li{margin:5px 0}.plan button{width:100%}
+.pro{border:2px solid var(--ac)}.err{color:#d6336c;font-size:14px;min-height:20px}
+details{border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin:8px 0;background:var(--card)}summary{cursor:pointer;font-weight:600}details p{margin:8px 0 0;color:var(--mu);font-size:15px}
+</style>
+</head>
+<body>
+<nav class="nav"><a class="b" href="/">Image2Motion AI</a><a href="/">Tool</a><a href="/blog/">Blog</a><a href="/guides/">Guides</a><a href="/pricing.html">Pricing</a><span id="authbar"></span></nav>
+<main>
+<h1>Simple, token-based pricing</h1>
+<p class="meta">1 token = 1 complete motion plan (prompts, scene ideas and storyboard).</p>
+<div id="stat" class="card" hidden></div>
+<div id="paid" class="card" hidden>🎉 Thank you! Your payment was received. Your Pro tokens will appear in a few seconds.</div>
+<div class="plans">
+  <div class="card plan"><h2>Free</h2><div class="price">$0</div>
+    <ul><li><b>25 tokens</b> for every new account (one-time)</li><li>Motion prompts, scene ideas and storyboard</li><li>19 output languages</li></ul>
+    <button id="bfree">Start free: 25 tokens</button></div>
+  <div class="card plan pro"><h2>Pro</h2><div class="price">%%PRO_PRICE%%<small>/month</small></div>
+    <ul><li><b>%%PRO_TOKENS%% tokens</b> every month</li><li>Unused tokens carry over</li><li>Everything in Free</li><li>Cancel anytime</li></ul>
+    <button id="bpro">Upgrade to Pro</button></div>
+</div>
+<p class="err" id="err"></p>
+
+<h2>How billing works</h2>
+<ol>
+<li><b>Sign in</b> with your email. No password needed.</li>
+<li><b>Click Upgrade.</b> You are taken to a secure hosted checkout. We never see or store your card details.</li>
+<li><b>Tokens arrive instantly</b> after payment and are added to your account.</li>
+<li><b>Renews monthly</b> with a fresh batch of tokens until you cancel. Update your card, download invoices or cancel anytime from <i>Manage billing</i>.</li>
+</ol>
+
+<h2>Billing FAQ</h2>
+<details><summary>What is a token?</summary><p>One token is used each time you generate a motion plan from an image. Failed generations do not use a token.</p></details>
+<details><summary>What happens when my free tokens run out?</summary><p>You can upgrade to Pro at any time to keep generating. Your account and past results stay available.</p></details>
+<details><summary>Do unused tokens expire?</summary><p>No. Unused tokens stay in your account.</p></details>
+<details><summary>How do I cancel?</summary><p>Open this page while signed in and click <b>Manage billing</b>. You keep Pro until the end of the period you paid for.</p></details>
+<details><summary>Which payment methods can I use?</summary><p>The secure checkout shows the payment methods available for your country. Prices are shown in USD and taxes are handled at checkout.</p></details>
+<details><summary>I need help with a payment</summary><p>Email us at <a href="mailto:%%SUPPORT_EMAIL%%">%%SUPPORT_EMAIL%%</a> and we will help. See also our <a href="/legal/refund.html">refund policy</a>.</p></details>
+</main>
+<footer><a href="/">Home</a> · <a href="/pricing.html">Pricing</a> · <a href="/legal/terms.html">Terms</a> · <a href="/legal/privacy.html">Privacy</a> · <a href="/legal/refund.html">Refunds</a> · &copy; Image2Motion AI</footer>
+<script src="/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/auth.js"></script>
+<script>
+const $=i=>document.getElementById(i);let mode='upgrade';
+I2M.onChange(i=>{
+  const p=i.profile,s=i.session;
+  $('stat').hidden=!p;
+  if(p){let t='⚡ '+p.tokens+' tokens · Plan: '+(p.plan==='pro'?'Pro':'Free');if(p.has_subscription&&p.renews_at){t+=' · '+(p.status==='cancelled'?'Ends ':'Renews ')+new Date(p.renews_at).toLocaleDateString()}$('stat').textContent=t}
+  $('bfree').textContent=s?'Included in your account':'Start free: 25 tokens';$('bfree').disabled=!!s;
+  const b=$('bpro');b.disabled=false;
+  if(p&&p.plan==='pro'&&p.has_subscription){mode='portal';b.textContent='Manage billing'}
+  else if(p&&p.plan==='pro'){mode='none';b.textContent='Pro is active';b.disabled=true}
+  else{mode='upgrade';b.textContent='Upgrade to Pro'}
+});
+$('bfree').onclick=()=>I2M.openLogin('Create your account and get 25 free tokens.');
+$('bpro').onclick=async()=>{
+  $('err').textContent='';
+  if(!I2M.session){I2M.openLogin('Sign in to upgrade to Pro.');return}
+  const b=$('bpro');b.disabled=true;
+  try{const d=await(mode==='portal'?I2M.portal():I2M.checkout());if(!d.url){$('err').textContent=d.error||'Something went wrong.';b.disabled=false}}
+  catch(e){$('err').textContent='Network error. Please try again.';b.disabled=false}
+};
+if(/[?&]paid=1/.test(location.search)){$('paid').hidden=false;(async()=>{for(let k=0;k<6;k++){await new Promise(r=>setTimeout(r,3000));await I2M.refresh()}})()}
+</script>
+</body>
+</html>
