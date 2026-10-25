@@ -4,8 +4,9 @@ const sb = require('./_sb');
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
   if (!sb.configured()) return res.status(500).json({ error: 'Server is not configured (Supabase variables missing).' });
-  const key = process.env.ANTHROPIC_API_KEY;
-  if (!key) return res.status(500).json({ error: 'ANTHROPIC_API_KEY is not set.' });
+  const gemini = String(process.env.AI_PROVIDER || '').toLowerCase() === 'gemini';
+  const key = gemini ? process.env.GEMINI_API_KEY : process.env.ANTHROPIC_API_KEY;
+  if (!key) return res.status(500).json({ error: (gemini ? 'GEMINI_API_KEY' : 'ANTHROPIC_API_KEY') + ' is not set.' });
 
   const user = await sb.userFromReq(req);
   if (!user) return res.status(401).json({ error: 'Please sign in to generate a plan.', needLogin: true });
@@ -38,21 +39,39 @@ Return ONLY JSON, no markdown:
 Write summary, mood, scene ideas and storyboard visual/motion/camera descriptions in ${lang}, including titles, tags and the voiceover lines (voiceover should sound natural for a ${lang}-speaking audience). All "prompt" fields (motion_prompts and storyboard) must be written in ${promptsLang}.`;
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({
-        model: process.env.CLAUDE_MODEL || 'claude-sonnet-5-5',
-        max_tokens: 3000,
-        messages: [{ role: 'user', content: [
-          { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: b.image } },
-          { type: 'text', text: prompt }
-        ] }]
-      })
-    });
-    const data = await r.json();
-    if (!r.ok) { await refund(); return res.status(502).json({ error: (data.error && data.error.message) || 'AI API error. Your token was not used.' }); }
-    const text = (data.content || []).map(c => c.text || '').join('').replace(/```json|```/g, '').trim();
+    let text;
+    if (gemini) {
+      const model = process.env.GEMINI_MODEL || 'gemini-3.5-flash';
+      const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-goog-api-key': key },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ inline_data: { mime_type: 'image/jpeg', data: b.image } }, { text: prompt }] }],
+          generationConfig: { responseMimeType: 'application/json', maxOutputTokens: 6000 }
+        })
+      });
+      const data = await r.json();
+      if (!r.ok) { await refund(); return res.status(502).json({ error: ((data.error && data.error.message) || 'AI API error') + ' (your token was not used)' }); }
+      const parts = (((data.candidates || [])[0] || {}).content || {}).parts || [];
+      text = parts.map(x => x.text || '').join('');
+    } else {
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
+        body: JSON.stringify({
+          model: process.env.CLAUDE_MODEL || 'claude-sonnet-5-5',
+          max_tokens: 3000,
+          messages: [{ role: 'user', content: [
+            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: b.image } },
+            { type: 'text', text: prompt }
+          ] }]
+        })
+      });
+      const data = await r.json();
+      if (!r.ok) { await refund(); return res.status(502).json({ error: (data.error && data.error.message) || 'AI API error. Your token was not used.' }); }
+      text = (data.content || []).map(c => c.text || '').join('');
+    }
+    text = text.replace(/```json|```/g, '').trim();
     const plan = JSON.parse(text);
     return res.status(200).json({ plan, tokens: left });
   } catch (e) {
