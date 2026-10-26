@@ -11,10 +11,28 @@ async function userFromReq(req) {
   const u = await r.json();
   return u && u.id ? { id: u.id, email: u.email } : null;
 }
+// Token operations without database functions: compare-and-swap on the tokens column (atomic, no race).
+async function casUpdate(uid, compute) {
+  for (let i = 0; i < 6; i++) {
+    let p = await getProfile(uid);
+    if (!p) {
+      await fetch(U() + '/rest/v1/profiles?on_conflict=id', { method: 'POST', headers: H({ Prefer: 'resolution=ignore-duplicates,return=minimal' }), body: JSON.stringify({ id: uid }) });
+      p = await getProfile(uid);
+      if (!p) return -1;
+    }
+    const next = compute(p.tokens);
+    if (next === null) return -1;
+    const r = await fetch(U() + '/rest/v1/profiles?id=eq.' + encodeURIComponent(uid) + '&tokens=eq.' + p.tokens, { method: 'PATCH', headers: H({ Prefer: 'return=representation' }), body: JSON.stringify({ tokens: next }) });
+    if (!r.ok) throw new Error('tokens: ' + (await r.text()));
+    const rows = await r.json();
+    if (Array.isArray(rows) && rows.length) return rows[0].tokens;
+  }
+  throw new Error('tokens: busy, try again');
+}
 async function rpc(fn, args) {
-  const r = await fetch(U() + '/rest/v1/rpc/' + fn, { method: 'POST', headers: H(), body: JSON.stringify(args) });
-  if (!r.ok) throw new Error('rpc ' + fn + ': ' + (await r.text()));
-  return r.json();
+  if (fn === 'consume_token') return casUpdate(args.uid, t => (t > 0 ? t - 1 : null));
+  if (fn === 'add_tokens') return casUpdate(args.uid, t => Math.max(t + args.n, 0));
+  throw new Error('unknown operation ' + fn);
 }
 async function select(table, query) {
   const r = await fetch(U() + '/rest/v1/' + table + '?' + query, { headers: H() });
