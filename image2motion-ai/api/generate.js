@@ -24,9 +24,9 @@ module.exports = async (req, res) => {
   const n = dur <= 5 ? 3 : dur <= 10 ? 4 : dur <= 15 ? 5 : 7;
 
   // 1 generation = 1 token. Deduct first (atomic), refund if the AI call fails.
-  try { await sb.ensureProfile(user); } catch (e) { return res.status(500).json({ error: 'Account error. Please try again.' }); }
+  try { await sb.ensureProfile(user); } catch (e) { console.error('ensureProfile failed:', e && e.message); return res.status(500).json({ error: 'Account error. Please try again.' }); }
   let left;
-  try { left = await sb.rpc('consume_token', { uid: user.id }); } catch (e) { return res.status(500).json({ error: 'Could not check your tokens. Please try again.' }); }
+  try { left = await sb.rpc('consume_token', { uid: user.id }); } catch (e) { console.error('consume_token failed:', e && e.message); return res.status(500).json({ error: 'Could not check your tokens. Please try again.' }); }
   if (left < 0) return res.status(402).json({ error: 'You have no tokens left. Upgrade to Pro to keep generating.', needUpgrade: true, tokens: 0 });
   const refund = () => sb.rpc('add_tokens', { uid: user.id, n: 1 }).catch(() => {});
 
@@ -75,6 +75,7 @@ Write summary, mood, scene ideas and storyboard visual/motion/camera description
     const plan = JSON.parse(text);
     return res.status(200).json({ plan, tokens: left });
   } catch (e) {
+    console.error('generate failed:', e && e.message);
     await refund();
     return res.status(500).json({ error: 'Could not generate the plan. Your token was not used. Please try again.' });
   }
