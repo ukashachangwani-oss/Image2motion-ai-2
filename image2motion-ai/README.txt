@@ -98,3 +98,4 @@ Your GitHub repo root must contain:  api/  posts/  static/  supabase/  build.js 
 and  static/index.html  must exist. GitHub's web uploader does not unzip: extract the zip first, then drag the
 extracted FOLDERS (not the zip) into "Add file -> Upload files". The harmless npm warning
 "Unknown env config cache-dir" can be ignored.
+update
